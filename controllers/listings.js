@@ -80,14 +80,14 @@ module.exports.createListing = async (req, res,next) => {
 
   module.exports.destroyListing = async (req, res) => {
     let { id } = req.params;
-     const deletedListing = await Listing.findByIdAndDelete(id);
-    if(!deletedListing)
-    {
-      res.status(500).message('Internal Server error');
+    const deletedListing = await Listing.findByIdAndDelete(id);
+    if (!deletedListing) {
+        req.flash("error", "Listing you requested to delete does not exist!");
+        res.redirect("/listings");
+    } else {
+        req.flash("success", "Listing Deleted!");
+        res.redirect("/");  
     }
-    console.log(deletedListing);
-    req.flash("success","Listing Deleted!");
-    res.redirect("/");
-  };
+};
 
   
